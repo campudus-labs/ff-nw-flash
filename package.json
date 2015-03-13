@@ -1,0 +1,24 @@
+{
+  "main": "index.html",
+  "name": "ff-nw-flash",
+  "description": "Testing NW.js with Flash",
+  "version": "0.1.0",
+  "keywords": [ "nw", "flash" ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/campudus/ff-nw-flash.git"
+  },
+  "author": "Campudus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/campudus/ff-nw-flash/issues"
+  },
+  "homepage": "https://github.com/campudus/ff-nw-flash",
+  "window" : {
+    "width": 800,
+    "height": 600
+  }
+}
