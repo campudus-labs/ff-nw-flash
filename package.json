@@ -19,6 +19,12 @@
   "homepage": "https://github.com/campudus/ff-nw-flash",
   "window" : {
     "width": 800,
-    "height": 600
+    "height": 600,
+    "toolbar": true,
+    "show": true,
+    "visible-on-all-workspaces": true
+  },
+  "webkit": {
+    "plugin": true
   }
 }

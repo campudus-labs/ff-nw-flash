@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using node.js <script>document.write(process.version)</script>.
-  </body>
+<head>
+  <title>Hello World!</title>
+</head>
+<body>
+<h1>Hello World!</h1>
+We are using node.js <script>document.write(process.version)</script>.
+<ul>
+  <li><a href="page2.html">Directory Listing</a></li>
+  <li><a href="page3.html">Flash test</a></li>
+  <li><a id="exit" href="#">Exit</a></li>
+</ul>
+<script>
+  document.getElementById('exit').addEventListener('click', function (event) {
+    var gui = require('nw.gui');
+    gui.App.quit();
+  });
+</script>
+</body>
 </html>

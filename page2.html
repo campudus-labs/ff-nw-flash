@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Debug stuff</title>
+</head>
+<body>
+<h1>Debug information</h1>
+
+<h2>Directory listing</h2>
+<ul id="fs">
+</ul>
+<h2>Plugin listing</h2>
+<ul id="plugins">
+</ul>
+<ul>
+  <li><a href="index.html">Back to index</a></li>
+</ul>
+<script>
+  var fs = require('fs');
+  var files = fs.readdirSync('.');
+  document.getElementById('fs').innerHTML = '<li>' + files.join("</li><li>") + '</li>';
+  console.log(navigator.plugins);
+</script>
+</body>
+</html>
