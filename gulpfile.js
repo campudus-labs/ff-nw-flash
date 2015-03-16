@@ -9,6 +9,7 @@ var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var plumber = require('gulp-plumber');
 var replace = require('gulp-replace');
+var karma = require('gulp-karma');
 
 
 gulp.task('sass', sassCompile);
@@ -20,6 +21,7 @@ gulp.task('devPackageCopy', devPackageCopy);
 
 gulp.task('reloader', ['build'], reload);
 gulp.task('dev', ['devPackageCopy', 'build'], server);
+gulp.task('test', ['build'], test);
 
 gulp.task('build', ['sass', 'assets', 'scripts']);
 gulp.task('default', ['build', 'packageCopy']);
@@ -69,6 +71,17 @@ function devPackageCopy() {
     .pipe(gulp.dest('out/'));
 }
 
+function test() {
+  return gulp.src('src/test/**/*Spec.js')
+    .pipe(karma({
+      configFile : 'karma.conf.js',
+      action : 'run'
+    }))
+    .on('error', function (err) {
+      throw err;
+    });
+}
+
 function server() {
   browserSync({
     server : {
@@ -78,9 +91,10 @@ function server() {
 
   gulp.watch(['src/main/**', 'src/main/js/**', 'src/main/scss/**/*.scss'], {}, ['reloader']);
 
-  //return karma.server.start({
-  //  configFile : __dirname + '/karma.conf.js'
-  //});
+  gulp.src('src/test/**/*Spec.js').pipe(karma({
+    configFile : 'karma.conf.js',
+    action : 'watch'
+  }));
 }
 
 function clean(cb) {

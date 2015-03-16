@@ -8,8 +8,8 @@
     "flash"
   ],
   "scripts": {
-    "build": "gulp",
-    "dev": "gulp dev",
+    "build": "gulp clean && gulp",
+    "dev": "gulp clean && gulp dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -36,6 +36,10 @@
     "gulp-minify-css": "^1.0.0",
     "gulp-plumber": "^1.0.0",
     "gulp-replace": "^0.5.3",
-    "karma": "^0.12.31"
+    "jasmine-core": "^2.2.0",
+    "karma": "^0.12.31",
+    "karma-browserify": "^4.0.0",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.5"
   }
 }
