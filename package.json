@@ -1,5 +1,5 @@
 {
-  "main": "index.html",
+  "main": "out/index.html",
   "name": "ff-nw-flash",
   "description": "Testing NW.js with Flash",
   "version": "0.1.0",
@@ -20,17 +20,19 @@
     "url": "https://github.com/campudus/ff-nw-flash/issues"
   },
   "homepage": "https://github.com/campudus/ff-nw-flash",
-  "window": {
-    "width": 800,
-    "height": 600,
-    "toolbar": true,
-    "show": true,
-    "visible-on-all-workspaces": true
-  },
-  "webkit": {
-    "plugin": true
-  },
   "dependencies": {
     "nw-flash-trust": "^0.1.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.2.4",
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-browserify": "^0.5.1",
+    "gulp-compass": "^2.0.3",
+    "gulp-karma": "0.0.4",
+    "gulp-livereload": "^3.8.0",
+    "gulp-minify-css": "^1.0.0",
+    "gulp-plumber": "^1.0.0",
+    "karma": "^0.12.31"
   }
 }

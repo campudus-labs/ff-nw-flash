@@ -2,26 +2,6 @@
 <html>
 <head>
   <title>Hello World!</title>
-  <script>
-    var path = require('path');
-    var flashTrust = require('nw-flash-trust');
-    var appName = 'ff-nw-flash';
-
-    try {
-      // Initialization and parsing config file for given appName (if already exists).
-      var trustManager = flashTrust.initSync(appName);
-
-      trustManager.empty();
-      trustManager.add(process.cwd());
-
-      var isTrusted = trustManager.isTrusted(path.resolve(process.cwd(), 'flash-test.swf'));
-    } catch (err) {
-      if (err.message === 'Flash Player config folder not found.') {
-        // Directory needed to do the work doesn't exist.
-        // Probably Flash Player is not installed, there is nothing I can do.
-      }
-    }
-  </script>
 </head>
 <body>
 <h1>Flash test</h1>
