@@ -8,17 +8,21 @@ var browserify = require('gulp-browserify');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var plumber = require('gulp-plumber');
+var replace = require('gulp-replace');
 
 
 gulp.task('sass', sassCompile);
 gulp.task('assets', assetCopy);
 gulp.task('scripts', scriptCompile);
 gulp.task('clean', clean);
+gulp.task('packageCopy', packageJsonCopy);
+gulp.task('devPackageCopy', devPackageCopy);
 
-gulp.task('reloader', ['default'], reload);
-gulp.task('dev', ['default'], liveReloadServer);
+gulp.task('reloader', ['build'], reload);
+gulp.task('dev', ['devPackageCopy', 'build'], server);
 
-gulp.task('default', ['sass', 'assets', 'scripts']);
+gulp.task('build', ['sass', 'assets', 'scripts']);
+gulp.task('default', ['build', 'packageCopy']);
 
 
 function sassCompile() {
@@ -53,7 +57,19 @@ function assetCopy() {
     .pipe(gulp.dest('out/'));
 }
 
-function liveReloadServer() {
+function packageJsonCopy() {
+  return gulp.src(['src/package.json'])
+    .pipe(gulp.dest('out/'));
+}
+
+function devPackageCopy() {
+  return gulp.src(['src/package.json'])
+    .pipe(replace(/(\s*)"main"(\s*:\s*)"([^"]*)"(\s*,\s*)/,
+      '$1"main"$2"http://localhost:3000/$3"$4"node-remote"$2"http://localhost:3000/$3"$4'))
+    .pipe(gulp.dest('out/'));
+}
+
+function server() {
   browserSync({
     server : {
       baseDir : 'out'
