@@ -67,7 +67,7 @@ function packageJsonCopy() {
 function devPackageCopy() {
   return gulp.src(['src/package.json'])
     .pipe(replace(/(\s*)"main"(\s*:\s*)"([^"]*)"(\s*,\s*)/,
-      '$1"main"$2"http://localhost:3000/$3"$4"node-remote"$2"http://localhost:3000/$3"$4'))
+      '$1"main"$2"http://localhost:3000/$3"$4"node-remote"$2"http://localhost:3000"$4'))
     .pipe(gulp.dest('out/'));
 }
 
