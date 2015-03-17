@@ -4,4 +4,3 @@ node_modules/
 .idea/
 .sass-cache
 out/
-src/flash/last_build.txt
