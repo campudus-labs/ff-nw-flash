@@ -11,6 +11,8 @@
     "build": "gulp clean && gulp",
     "clean": "gulp clean",
     "dev": "gulp clean && gulp dev",
+    "mac": "gulp clean && gulp && osascript -e 'tell application \"Adobe Flash CS6\" to open posix file \"'${PWD}'/src/flash/compile.jsfl\"' && nwjs out",
+    "win": "gulp clean && gulp && flash.exe \"src\\flash\\compile.jsfl\" && nwjs out",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
