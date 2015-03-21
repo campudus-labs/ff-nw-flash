@@ -10,21 +10,24 @@ var reload = browserSync.reload;
 var plumber = require('gulp-plumber');
 var replace = require('gulp-replace');
 var karma = require('gulp-karma');
+var shell = require('gulp-shell');
 
 
 gulp.task('sass', sassCompile);
 gulp.task('assets', assetCopy);
 gulp.task('scripts', scriptCompile);
+gulp.task('flash', flashCompile);
 gulp.task('clean', clean);
 gulp.task('packageCopy', packageJsonCopy);
 gulp.task('devPackageCopy', devPackageCopy);
 
 gulp.task('reloader', ['build'], reload);
-gulp.task('dev', ['devPackageCopy', 'build'], server);
-gulp.task('test', ['build'], test);
+gulp.task('reloadFlash', ['flash'], reload);
+gulp.task('dev', ['devPackageCopy', 'build', 'flash'], server);
+gulp.task('test', ['build', 'flash'], test);
 
 gulp.task('build', ['sass', 'assets', 'scripts']);
-gulp.task('default', ['build', 'packageCopy']);
+gulp.task('default', ['build', 'flash', 'packageCopy']);
 
 
 function sassCompile() {
@@ -52,6 +55,20 @@ function scriptCompile() {
 //      transform : ['reactify']
     }))
     .pipe(gulp.dest('out/js/'));
+}
+
+function flashCompile() {
+  var flashCompileCommand;
+  if (process.platform === 'darwin') {
+    flashCompileCommand = 'osascript -e \'tell application "Adobe Flash CS6" to open posix file "' + __dirname + '/src/flash/compile.jsfl"\'';
+  } else {
+    flashCompileCommand = 'flash.exe "src\\flash\\compile.jsfl"';
+  }
+
+  return gulp.src(['src/flash/compile.jsfl'])
+    .pipe(plumber())
+    .pipe(shell('echo 1 > src/flash/compile.jsfl.deleteme'))
+    .pipe(shell(flashCompileCommand))
 }
 
 function assetCopy() {
@@ -86,10 +103,12 @@ function server() {
   browserSync({
     server : {
       baseDir : 'out'
-    }
+    },
+    open: false
   });
 
   gulp.watch(['src/main/**', 'src/main/js/**', 'src/main/scss/**/*.scss'], {}, ['reloader']);
+  gulp.watch(['src/flash/**'], {}, ['reloadFlash']);
 
   gulp.src('src/test/**/*Spec.js').pipe(karma({
     configFile : 'karma.conf.js',

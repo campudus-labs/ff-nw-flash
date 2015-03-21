@@ -15,5 +15,5 @@ ExternalInterface.addCallback('callFlashFunction', null, yourFlashFunction);
 ExternalInterface.call('onFlashLoaded', true);
 
 function yourFlashFunction (arg1) {
-  someTextClip.textInput.text = arg1;
+  someTextClip.textInput.text = 'from js:' + arg1;
 }
