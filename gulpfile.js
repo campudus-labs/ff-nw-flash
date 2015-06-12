@@ -4,7 +4,8 @@ var Path = require('path');
 var compass = require('gulp-compass');
 var minifyCss = require('gulp-minify-css');
 var del = require('del');
-var browserify = require('gulp-browserify');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var plumber = require('gulp-plumber');
@@ -49,12 +50,14 @@ function sassCompile() {
 }
 
 function scriptCompile() {
-  return gulp.src(['src/main/js/app.js'])
-    .pipe(plumber())
-    .pipe(browserify({
-//      transform : ['reactify']
-    }))
-    .pipe(gulp.dest('out/js/'));
+  return browserify('src/main/js/app.js')
+    .bundle()
+    .on('error', function (err) {
+      console.log('error occured:', err);
+      this.emit('end');
+    })
+    .pipe(source('app.js'))
+    .pipe(gulp.dest('out/js'));
 }
 
 function flashCompile() {
