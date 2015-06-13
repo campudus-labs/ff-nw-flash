@@ -39,7 +39,9 @@
   function talkToFlash() {
     counter++;
     flashObj.callFlashFunction('counter=' + counter);
-    setTimeout(talkToFlash, 500);
+    // has to be async to stay responsive
+    // talkToFlash();
+    setTimeout(talkToFlash, 1);
   }
 
   function onFlashLoaded() {
