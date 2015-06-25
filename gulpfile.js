@@ -12,6 +12,7 @@ var plumber = require('gulp-plumber');
 var replace = require('gulp-replace');
 var karma = require('gulp-karma');
 var shell = require('gulp-shell');
+var zip = require('gulp-zip');
 
 
 gulp.task('sass', sassCompile);
@@ -28,8 +29,11 @@ gulp.task('dev', ['devPackageCopy', 'build', 'flash'], server);
 gulp.task('test', ['build', 'flash'], test);
 
 gulp.task('build', ['sass', 'assets', 'scripts']);
-gulp.task('default', ['build', 'flash', 'packageCopy']);
+gulp.task('nw', ['build', 'flash', 'packageCopy'], packageNodeWebkit);
+gulp.task('default', ['nw']);
 
+var outDir = 'out';
+var packageDir = '.';
 
 function sassCompile() {
   return gulp.src('src/main/scss/style.scss')
@@ -41,12 +45,12 @@ function sassCompile() {
     }))
     .pipe(compass({
       project : Path.join(__dirname),
-      css : 'out/css',
+      css : outDir + '/css',
       sass : 'src/main/scss',
       image : 'src/main/img'
     }))
     .pipe(minifyCss())
-    .pipe(gulp.dest('out/css'));
+    .pipe(gulp.dest(outDir + '/css'));
 }
 
 function scriptCompile() {
@@ -57,7 +61,7 @@ function scriptCompile() {
       this.emit('end');
     })
     .pipe(source('app.js'))
-    .pipe(gulp.dest('out/js'));
+    .pipe(gulp.dest(outDir + '/js'));
 }
 
 function flashCompile() {
@@ -76,19 +80,19 @@ function flashCompile() {
 
 function assetCopy() {
   return gulp.src(['src/main/**', '!src/main/js/**', '!src/main/scss', '!src/main/scss/**'])
-    .pipe(gulp.dest('out/'));
+    .pipe(gulp.dest(outDir));
 }
 
 function packageJsonCopy() {
   return gulp.src(['src/package.json'])
-    .pipe(gulp.dest('out/'));
+    .pipe(gulp.dest(outDir));
 }
 
 function devPackageCopy() {
   return gulp.src(['src/package.json'])
     .pipe(replace(/(\s*)"main"(\s*:\s*)"([^"]*)"(\s*,\s*)/,
       '$1"main"$2"http://localhost:3000/$3"$4"node-remote"$2"http://localhost:3000"$4'))
-    .pipe(gulp.dest('out/'));
+    .pipe(gulp.dest(outDir));
 }
 
 function test() {
@@ -105,7 +109,7 @@ function test() {
 function server() {
   browserSync({
     server : {
-      baseDir : 'out'
+      baseDir : outDir
     },
     open: false
   });
@@ -117,6 +121,12 @@ function server() {
     configFile : 'karma.conf.js',
     action : 'watch'
   }));
+}
+
+function packageNodeWebkit() {
+  return gulp.src(outDir + '/**')
+    .pipe(zip('xlc_shop.nw'))
+    .pipe(gulp.dest(packageDir))
 }
 
 function clean(cb) {
