@@ -130,5 +130,5 @@ function packageNodeWebkit() {
 }
 
 function clean(cb) {
-  del(['out/'], cb);
+  del([outDir], cb);
 }
